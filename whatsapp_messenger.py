@@ -130,9 +130,9 @@ class WhatsAppMessenger:
                 logging.error(f"Invalid phone number format: {number}")
                 return False
             
-            # For immediate sending, use sendwhatmsg_instantly for faster delivery
+            # For delays <= 15 seconds, use sendwhatmsg_instantly for faster delivery
             # This sends the message immediately after opening WhatsApp Web
-            if delay_seconds <= 10:
+            if delay_seconds <= 15:
                 logging.info(f"Sending immediate message to {number}")
                 kit.sendwhatmsg_instantly(number, self.message, delay_seconds)
                 logging.info(f"Message sent instantly to {number}")
@@ -156,13 +156,13 @@ class WhatsAppMessenger:
             logging.error(f"Failed to send message to {number}: {e}")
             return False
     
-    def send_messages_to_list(self, numbers: List[str], delay_between_messages: int = 1) -> dict:
+    def send_messages_to_list(self, numbers: List[str], delay_between_messages: int = 15) -> dict:
         """
         Send messages to a list of phone numbers.
         
         Args:
             numbers (List[str]): List of phone numbers
-            delay_between_messages (int): Seconds between each message
+            delay_between_messages (int): Seconds between each message (default: 15)
             
         Returns:
             dict: Summary of results
@@ -176,11 +176,11 @@ class WhatsAppMessenger:
         logging.info(f"Starting to send messages to {len(numbers)} numbers")
         
         for i, number in enumerate(numbers):
-            # For fast delivery, use minimal delays
+            # Use 15-second delays as requested
             if i == 0:
-                delay = 5  # First message opens WhatsApp in 5 seconds
+                delay = 15  # First message opens WhatsApp in 15 seconds
             else:
-                delay = 5 + (i * delay_between_messages)  # Subsequent messages with 1-second intervals
+                delay = 15 + (i * delay_between_messages)  # Subsequent messages with 15-second intervals
             
             # Ensure delay doesn't exceed reasonable limits (max 2 minutes)
             if delay > 120:
