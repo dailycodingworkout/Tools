@@ -108,13 +108,13 @@ class WhatsAppMessenger:
             
         return True
     
-    def send_message_to_number(self, number: str, delay_minutes: int = 1) -> bool:
+    def send_message_to_number(self, number: str, delay_seconds: int = 7) -> bool:
         """
         Send message to a single phone number.
         
         Args:
             number (str): Phone number with country code
-            delay_minutes (int): Minutes to wait before sending
+            delay_seconds (int): Seconds to wait before sending
             
         Returns:
             bool: True if successful, False otherwise
@@ -130,9 +130,9 @@ class WhatsAppMessenger:
                 logging.error(f"Invalid phone number format: {number}")
                 return False
             
-            # Calculate send time (current time + delay)
+            # Calculate send time (current time + delay in seconds)
             now = datetime.now()
-            send_time = now + timedelta(minutes=delay_minutes)
+            send_time = now + timedelta(seconds=delay_seconds)
             hour = send_time.hour
             minute = send_time.minute
             
@@ -154,7 +154,7 @@ class WhatsAppMessenger:
         
         Args:
             numbers (List[str]): List of phone numbers
-            delay_between_messages (int): Minutes between each message
+            delay_between_messages (int): Seconds between each message
             
         Returns:
             dict: Summary of results
@@ -168,7 +168,7 @@ class WhatsAppMessenger:
         logging.info(f"Starting to send messages to {len(numbers)} numbers")
         
         for i, number in enumerate(numbers):
-            delay = (i + 1) * delay_between_messages  # Staggered timing
+            delay = 7 + (i * delay_between_messages)  # Start with 7 seconds, then add staggered timing
             
             if self.send_message_to_number(number, delay):
                 results['successful'].append(number)
@@ -176,7 +176,7 @@ class WhatsAppMessenger:
                 results['failed'].append(number)
             
             # Small delay to prevent overwhelming the system
-            time.sleep(1)
+            time.sleep(0.5)
         
         logging.info(f"Messaging complete. Success: {len(results['successful'])}, Failed: {len(results['failed'])}")
         return results
