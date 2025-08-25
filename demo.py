@@ -39,7 +39,7 @@ def demo_whatsapp_messenger():
     now = datetime.now()
     
     for i, number in enumerate(numbers):
-        send_time = now + timedelta(seconds=7 + (i * 2))  # 7 seconds + 2 seconds per message
+        send_time = now + timedelta(seconds=5 + (i * 1))  # 5 seconds + 1 second per message
         print(f"   {number} → {send_time.strftime('%H:%M:%S')}")
     print()
     
@@ -47,8 +47,8 @@ def demo_whatsapp_messenger():
     print("🚀 What would happen next:")
     print("   1. WhatsApp Web opens in your browser")
     print("   2. You scan QR code (if not logged in)")
-    print("   3. Messages are scheduled and sent automatically")
-    print("   4. First message sent after 7 seconds, then 2-second intervals")
+    print("   3. Messages are sent instantly with minimal delays")
+    print("   4. First message sent after 5 seconds, then 1-second intervals")
     print("   5. Results logged to whatsapp_messenger.log")
     print()
     

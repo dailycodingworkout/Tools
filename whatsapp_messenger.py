@@ -108,7 +108,7 @@ class WhatsAppMessenger:
             
         return True
     
-    def send_message_to_number(self, number: str, delay_seconds: int = 7) -> bool:
+    def send_message_to_number(self, number: str, delay_seconds: int = 5) -> bool:
         """
         Send message to a single phone number.
         
@@ -130,25 +130,33 @@ class WhatsAppMessenger:
                 logging.error(f"Invalid phone number format: {number}")
                 return False
             
-            # Calculate send time (current time + delay in seconds)
-            now = datetime.now()
-            send_time = now + timedelta(seconds=delay_seconds)
-            hour = send_time.hour
-            minute = send_time.minute
-            
-            logging.info(f"Scheduling message to {number} at {hour:02d}:{minute:02d}")
-            
-            # Send message using pywhatkit
-            kit.sendwhatmsg(number, self.message, hour, minute)
-            
-            logging.info(f"Message scheduled successfully for {number}")
-            return True
+            # For immediate sending, use sendwhatmsg_instantly for faster delivery
+            # This sends the message immediately after opening WhatsApp Web
+            if delay_seconds <= 10:
+                logging.info(f"Sending immediate message to {number}")
+                kit.sendwhatmsg_instantly(number, self.message, delay_seconds)
+                logging.info(f"Message sent instantly to {number}")
+                return True
+            else:
+                # Calculate send time (current time + delay in seconds)
+                now = datetime.now()
+                send_time = now + timedelta(seconds=delay_seconds)
+                hour = send_time.hour
+                minute = send_time.minute
+                
+                logging.info(f"Scheduling message to {number} at {hour:02d}:{minute:02d}")
+                
+                # Send message using pywhatkit
+                kit.sendwhatmsg(number, self.message, hour, minute)
+                
+                logging.info(f"Message scheduled successfully for {number}")
+                return True
             
         except Exception as e:
             logging.error(f"Failed to send message to {number}: {e}")
             return False
     
-    def send_messages_to_list(self, numbers: List[str], delay_between_messages: int = 2) -> dict:
+    def send_messages_to_list(self, numbers: List[str], delay_between_messages: int = 1) -> dict:
         """
         Send messages to a list of phone numbers.
         
@@ -168,15 +176,24 @@ class WhatsAppMessenger:
         logging.info(f"Starting to send messages to {len(numbers)} numbers")
         
         for i, number in enumerate(numbers):
-            delay = 7 + (i * delay_between_messages)  # Start with 7 seconds, then add staggered timing
+            # For fast delivery, use minimal delays
+            if i == 0:
+                delay = 5  # First message opens WhatsApp in 5 seconds
+            else:
+                delay = 5 + (i * delay_between_messages)  # Subsequent messages with 1-second intervals
+            
+            # Ensure delay doesn't exceed reasonable limits (max 2 minutes)
+            if delay > 120:
+                delay = 120
+                logging.warning(f"Delay capped at 120 seconds for number {i+1}")
             
             if self.send_message_to_number(number, delay):
                 results['successful'].append(number)
             else:
                 results['failed'].append(number)
             
-            # Small delay to prevent overwhelming the system
-            time.sleep(0.5)
+            # Very small delay to prevent overwhelming the system
+            time.sleep(0.1)
         
         logging.info(f"Messaging complete. Success: {len(results['successful'])}, Failed: {len(results['failed'])}")
         return results
