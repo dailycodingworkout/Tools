@@ -1,1 +1,88 @@
-Test
+# Tools Repository
+
+A collection of useful automation tools and utilities.
+
+## WhatsApp Messenger Tool
+
+### Description
+A Python tool that sends WhatsApp messages to a list of phone numbers. Specifically designed to send the message "I need 1BHK flat under 9k" to multiple recipients for flat hunting purposes.
+
+### Features
+- Send messages to multiple WhatsApp numbers
+- Automatic message scheduling with delays
+- Phone number validation
+- Detailed logging and error handling
+- JSON-based configuration for phone numbers
+- User confirmation before sending
+
+### Requirements
+- Python 3.6+
+- Internet connection
+- WhatsApp Web access (browser will open automatically)
+
+### Installation
+
+1. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### Usage
+
+1. **Configure Phone Numbers:**
+   Edit `phone_numbers.json` with your target phone numbers:
+   ```json
+   {
+     "numbers": [
+       "+919876543210",
+       "+919876543211",
+       "+919876543212"
+     ]
+   }
+   ```
+
+2. **Run the Tool:**
+   ```bash
+   python whatsapp_messenger.py
+   ```
+
+3. **Follow the prompts:**
+   - Review the loaded phone numbers
+   - Confirm to proceed with sending messages
+   - WhatsApp Web will open in your browser (scan QR code if needed)
+   - Messages will be sent automatically with staggered timing
+
+### Important Notes
+
+- **Phone Number Format:** Include country code (e.g., +91 for India, +1 for US)
+- **WhatsApp Web:** You need to be logged into WhatsApp Web for this to work
+- **Timing:** Messages are sent with delays to avoid spam detection
+- **Logs:** All activities are logged in `whatsapp_messenger.log`
+
+### Example Output
+```
+WhatsApp Messenger Tool
+==============================
+Message: 'I need 1BHK flat under 9k'
+
+Loaded 3 phone numbers:
+  1. +919876543210
+  2. +919876543211
+  3. +919876543212
+
+Proceed with sending messages? (y/N): y
+
+Results:
+Total numbers: 3
+Successful: 3
+Failed: 0
+
+Detailed logs saved to: whatsapp_messenger.log
+```
+
+### Troubleshooting
+
+- **Browser Issues:** Make sure you have a modern web browser installed
+- **WhatsApp Login:** Ensure you're logged into WhatsApp Web
+- **Network Issues:** Check your internet connection
+- **Invalid Numbers:** Verify phone numbers include correct country codes
