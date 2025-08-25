@@ -108,13 +108,13 @@ class WhatsAppMessenger:
             
         return True
     
-    def send_message_to_number(self, number: str, delay_seconds: int = 5) -> bool:
+    def send_message_to_number(self, number: str, delay_seconds: int = 15) -> bool:
         """
         Send message to a single phone number.
         
         Args:
             number (str): Phone number with country code
-            delay_seconds (int): Seconds to wait before sending
+            delay_seconds (int): Seconds to wait before sending (default: 15)
             
         Returns:
             bool: True if successful, False otherwise
@@ -158,7 +158,7 @@ class WhatsAppMessenger:
     
     def send_messages_to_list(self, numbers: List[str], delay_between_messages: int = 15) -> dict:
         """
-        Send messages to a list of phone numbers.
+        Send messages to a list of phone numbers with 15-second intervals.
         
         Args:
             numbers (List[str]): List of phone numbers
@@ -176,24 +176,20 @@ class WhatsAppMessenger:
         logging.info(f"Starting to send messages to {len(numbers)} numbers")
         
         for i, number in enumerate(numbers):
-            # Use 15-second delays as requested
-            if i == 0:
-                delay = 15  # First message opens WhatsApp in 15 seconds
-            else:
-                delay = 15 + (i * delay_between_messages)  # Subsequent messages with 15-second intervals
+            logging.info(f"Processing number {i+1}/{len(numbers)}: {number}")
             
-            # Ensure delay doesn't exceed reasonable limits (max 2 minutes)
-            if delay > 120:
-                delay = 120
-                logging.warning(f"Delay capped at 120 seconds for number {i+1}")
-            
-            if self.send_message_to_number(number, delay):
+            # Send message with 15-second delay (opens WhatsApp and sends immediately)
+            if self.send_message_to_number(number, delay_between_messages):
                 results['successful'].append(number)
+                logging.info(f"Successfully sent message to {number}")
             else:
                 results['failed'].append(number)
+                logging.error(f"Failed to send message to {number}")
             
-            # Very small delay to prevent overwhelming the system
-            time.sleep(0.1)
+            # Wait 15 seconds before processing the next number (except for the last one)
+            if i < len(numbers) - 1:
+                logging.info(f"Waiting {delay_between_messages} seconds before next message...")
+                time.sleep(delay_between_messages)
         
         logging.info(f"Messaging complete. Success: {len(results['successful'])}, Failed: {len(results['failed'])}")
         return results
