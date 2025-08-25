@@ -9,8 +9,8 @@ A Python tool that sends WhatsApp messages to a list of phone numbers. Specifica
 
 ### Features
 - Send messages to multiple WhatsApp numbers
-- Ultra-fast message delivery with minimal delays (5-second start, 1-second intervals)
-- Instant message sending for quick delivery
+- Sequential message delivery with 15-second intervals
+- Automatic browser tab closing after each message
 - Phone number validation
 - Detailed logging and error handling
 - JSON-based configuration for phone numbers
@@ -51,14 +51,16 @@ pip install -r requirements.txt
    - Review the loaded phone numbers
    - Confirm to proceed with sending messages
    - WhatsApp Web will open in your browser (scan QR code if needed)
-   - Messages will be sent automatically with staggered timing
+   - Messages will be sent automatically with 15-second intervals
+   - Browser tabs will be automatically closed after each message
 
 ### Important Notes
 
 - **Phone Number Format:** Include country code (e.g., +91 for India, +1 for US)
 - **WhatsApp Web:** You need to be logged into WhatsApp Web for this to work
-- **Ultra-Fast Timing:** Messages are sent very quickly - first message after 5 seconds, then 1-second intervals
-- **Large Lists:** For many numbers (90+), delivery is optimized to avoid scheduling conflicts
+- **Sequential Timing:** Messages are sent with 15-second intervals for reliable delivery
+- **Auto Tab Closing:** Browser tabs are automatically closed after each message (requires pyautogui)
+- **Large Lists:** Optimized sequential processing prevents scheduling conflicts
 - **Logs:** All activities are logged in `whatsapp_messenger.log`
 
 ### Example Output
@@ -88,3 +90,4 @@ Detailed logs saved to: whatsapp_messenger.log
 - **WhatsApp Login:** Ensure you're logged into WhatsApp Web
 - **Network Issues:** Check your internet connection
 - **Invalid Numbers:** Verify phone numbers include correct country codes
+- **Tab Closing Issues:** Install pyautogui for automatic tab closing: `pip install pyautogui`

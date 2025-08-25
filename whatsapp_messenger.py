@@ -31,6 +31,15 @@ except ImportError:
     print("Warning: pywhatkit not installed. Please install it using: pip install pywhatkit")
     kit = None
 
+# Import pyautogui for browser tab closing
+try:
+    import pyautogui
+    PYAUTOGUI_AVAILABLE = True
+except ImportError:
+    PYAUTOGUI_AVAILABLE = False
+    print("Warning: pyautogui not installed. Please install it using: pip install pyautogui")
+    pyautogui = None
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -83,16 +92,30 @@ class WhatsAppMessenger:
         with open(self.numbers_file, 'w') as f:
             json.dump(sample_data, f, indent=2)
     
-    def validate_phone_number(self, number: str) -> bool:
+    def close_browser_tab(self):
         """
-        Validate phone number format.
+        Close the current browser tab using keyboard shortcut.
         
-        Args:
-            number (str): Phone number to validate
-            
-        Returns:
-            bool: True if valid, False otherwise
+        This function sends Ctrl+W to close the WhatsApp Web tab after message is sent.
         """
+        try:
+            if not PYAUTOGUI_AVAILABLE:
+                logging.warning("pyautogui not available - cannot close browser tab automatically")
+                return False
+            
+            # Wait a moment for the message to be fully sent
+            time.sleep(2)
+            
+            # Send Ctrl+W to close the current tab
+            pyautogui.hotkey('ctrl', 'w')
+            logging.info("Browser tab closed successfully")
+            return True
+            
+        except Exception as e:
+            logging.error(f"Failed to close browser tab: {e}")
+            return False
+    
+    def validate_phone_number(self, number: str) -> bool:
         # Basic validation - should start with + and have at least 10 digits
         if not number.startswith('+'):
             return False
@@ -110,7 +133,7 @@ class WhatsAppMessenger:
     
     def send_message_to_number(self, number: str, delay_seconds: int = 15) -> bool:
         """
-        Send message to a single phone number.
+        Send message to a single phone number and close browser tab.
         
         Args:
             number (str): Phone number with country code
@@ -136,6 +159,9 @@ class WhatsAppMessenger:
                 logging.info(f"Sending immediate message to {number}")
                 kit.sendwhatmsg_instantly(number, self.message, delay_seconds)
                 logging.info(f"Message sent instantly to {number}")
+                
+                # Close the browser tab after sending message
+                self.close_browser_tab()
                 return True
             else:
                 # Calculate send time (current time + delay in seconds)
@@ -150,6 +176,9 @@ class WhatsAppMessenger:
                 kit.sendwhatmsg(number, self.message, hour, minute)
                 
                 logging.info(f"Message scheduled successfully for {number}")
+                
+                # Close the browser tab after sending message
+                self.close_browser_tab()
                 return True
             
         except Exception as e:
@@ -206,6 +235,13 @@ class WhatsAppMessenger:
             print("Error: pywhatkit library is required but not installed.")
             print("Please install it using: pip install pywhatkit")
             return
+        
+        # Check if pyautogui is available for tab closing
+        if not PYAUTOGUI_AVAILABLE:
+            print("Warning: pyautogui library not installed - browser tabs won't be closed automatically.")
+            print("Install it using: pip install pyautogui")
+            print("You can still proceed, but you'll need to close browser tabs manually.")
+            print()
         
         # Load phone numbers
         numbers = self.load_phone_numbers()
