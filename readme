@@ -1,1 +1,32 @@
-Test
+# Tools Repository
+
+This repository contains useful development tools and utilities.
+
+## Git Branch Migrator
+
+A comprehensive tool for migrating multiple branches from one repository to another while preserving complete git history.
+
+### Quick Start
+
+1. **Configure your migration**: Edit `example-doo-to-base.conf` with your repository details
+2. **Run the migration**: `./git-branch-migrator.sh -c example-doo-to-base.conf`
+3. **Validate results**: `./validate-migration.sh -r /path/to/migrated/repo`
+
+### Files
+
+- `git-branch-migrator.sh` - Main migration script
+- `validate-migration.sh` - Migration validation tool
+- `migration-config.conf` - General configuration template
+- `example-doo-to-base.conf` - Example configuration for the specific use case
+- `MIGRATION_GUIDE.md` - Comprehensive documentation
+
+### Features
+
+✅ Preserves complete git history  
+✅ Maintains commit messages and author information  
+✅ Organizes branches into folders  
+✅ GitHub Copilot compatible  
+✅ Automatic validation and reporting  
+✅ Secure and clean temporary file handling  
+
+See `MIGRATION_GUIDE.md` for detailed instructions.
