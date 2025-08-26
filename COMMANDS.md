@@ -20,32 +20,27 @@ Two approaches for migrating multiple branches from source repo to target repo:
 
 ### Setup Commands
 ```bash
-# Clone source repository
-git clone https://github.com/your-username/source-repo.git source
-cd source
-
-# Clone target repository  
+# Clone target repository first
 git clone https://github.com/your-username/target-repo.git target
 cd target
 ```
 
-### Migration Commands (repeat for each branch)
+### Migration Commands (for each branch)
+
+**⚠️ Note**: We clone each branch separately to avoid modifying the source repository.
+
 ```bash
-# Go to source repo
-cd source
+# For 18.0 branch -> v18 folder
+# Clone source repo with specific branch (doesn't modify original)
+git clone -b 18.0 https://github.com/your-username/source-repo.git source-18.0
 
-# Switch to branch you want to migrate (e.g., 18.0)
-git checkout 18.0
-
-# Go to target repo
-cd ../target
-
-# Create folder for this version (e.g., v18)
+# Go to target repo and create folder
+cd target
 mkdir -p v18
 
 # Copy all files from source branch to target folder
-cp -r ../source/* v18/ 2>/dev/null || true
-cp -r ../source/.* v18/ 2>/dev/null || true
+cp -r ../source-18.0/* v18/ 2>/dev/null || true
+cp -r ../source-18.0/.* v18/ 2>/dev/null || true
 
 # Remove git folder from copied content (THIS REMOVES ALL HISTORY)
 rm -rf v18/.git
@@ -53,52 +48,60 @@ rm -rf v18/.git
 # Add and commit changes
 git add .
 git commit -m "Add v18 from 18.0 branch (files only, no history)"
+
+# Clean up source clone
+cd ..
+rm -rf source-18.0
+cd target
 ```
 
 ### Repeat for All Branches
 ```bash
 # For master branch
-cd source && git checkout master
-cd ../target && mkdir -p master
-cp -r ../source/* master/ 2>/dev/null || true
-cp -r ../source/.* master/ 2>/dev/null || true
+git clone -b master https://github.com/your-username/source-repo.git source-master
+mkdir -p master
+cp -r ../source-master/* master/ 2>/dev/null || true
+cp -r ../source-master/.* master/ 2>/dev/null || true
 rm -rf master/.git
 git add . && git commit -m "Add master branch (files only, no history)"
+rm -rf ../source-master
 
 # For 17.0 branch  
-cd source && git checkout 17.0
-cd ../target && mkdir -p v17
-cp -r ../source/* v17/ 2>/dev/null || true
-cp -r ../source/.* v17/ 2>/dev/null || true
+git clone -b 17.0 https://github.com/your-username/source-repo.git source-17.0
+mkdir -p v17
+cp -r ../source-17.0/* v17/ 2>/dev/null || true
+cp -r ../source-17.0/.* v17/ 2>/dev/null || true
 rm -rf v17/.git
 git add . && git commit -m "Add v17 from 17.0 branch (files only, no history)"
+rm -rf ../source-17.0
 
 # For 16.0 branch
-cd source && git checkout 16.0  
-cd ../target && mkdir -p v16
-cp -r ../source/* v16/ 2>/dev/null || true
-cp -r ../source/.* v16/ 2>/dev/null || true
+git clone -b 16.0 https://github.com/your-username/source-repo.git source-16.0
+mkdir -p v16
+cp -r ../source-16.0/* v16/ 2>/dev/null || true
+cp -r ../source-16.0/.* v16/ 2>/dev/null || true
 rm -rf v16/.git
 git add . && git commit -m "Add v16 from 16.0 branch (files only, no history)"
+rm -rf ../source-16.0
 
 # For 15.0 branch
-cd source && git checkout 15.0
-cd ../target && mkdir -p v15  
-cp -r ../source/* v15/ 2>/dev/null || true
-cp -r ../source/.* v15/ 2>/dev/null || true
+git clone -b 15.0 https://github.com/your-username/source-repo.git source-15.0
+mkdir -p v15  
+cp -r ../source-15.0/* v15/ 2>/dev/null || true
+cp -r ../source-15.0/.* v15/ 2>/dev/null || true
 rm -rf v15/.git
 git add . && git commit -m "Add v15 from 15.0 branch (files only, no history)"
+rm -rf ../source-15.0
 ```
 
 ### Final Commands for Option A
 ```bash
 # Push all changes to remote
-cd target
 git push origin main
 
-# Clean up local repos (optional)
+# Clean up (all source clones are already cleaned up automatically)
 cd ..
-rm -rf source target
+rm -rf target
 ```
 
 ---
