@@ -1,0 +1,170 @@
+{
+  "repository": {
+    "extracted_at": "2025-08-30T17:09:02.965767",
+    "original_path": "/home/runner/work/Tools/Tools",
+    "total_commits": 2,
+    "total_authors": 2,
+    "total_files": 0,
+    "branches": 2,
+    "tags": 0
+  },
+  "commits": [
+    {
+      "hash": "655041cb7c71520065ea2e77de6a049e838adfd3",
+      "author": {
+        "name": "copilot-swe-agent[bot]",
+        "email": "198982749+Copilot@users.noreply.github.com",
+        "date": "Sat Aug 30 16:40:16 2025 +0000"
+      },
+      "committer": {
+        "name": "copilot-swe-agent[bot]",
+        "email": "198982749+Copilot@users.noreply.github.com",
+        "date": "Sat Aug 30 16:40:16 2025 +0000"
+      },
+      "message": {
+        "subject": "Initial plan|Initial plan",
+        "body": "Initial plan"
+      },
+      "parents": [
+        "9eee0be76d57684f59bcf4f9f88333e25697c29f"
+      ],
+      "changes": [],
+      "stats": {
+        "files_changed": 0,
+        "insertions": 0,
+        "deletions": 0
+      }
+    },
+    {
+      "hash": "9eee0be76d57684f59bcf4f9f88333e25697c29f",
+      "author": {
+        "name": "SMIT PATEL",
+        "email": "srp@aiet.edu.in",
+        "date": "Mon Aug 25 21:22:51 2025 +0530"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "Mon Aug 25 21:22:51 2025 +0530"
+      },
+      "message": {
+        "subject": "Add initial content to readme|Add initial content to readme",
+        "body": "Add initial content to readme"
+      },
+      "parents": [],
+      "changes": [],
+      "stats": {
+        "files_changed": 1,
+        "insertions": 1,
+        "deletions": 0
+      }
+    }
+  ],
+  "authors": {
+    "198982749+Copilot@users.noreply.github.com": {
+      "name": "copilot-swe-agent[bot]",
+      "email": "198982749+Copilot@users.noreply.github.com",
+      "commits": 1,
+      "first_commit": "Sat Aug 30 16:40:16 2025 +0000",
+      "last_commit": "Sat Aug 30 16:40:16 2025 +0000",
+      "total_insertions": 0,
+      "total_deletions": 0,
+      "files_touched": []
+    },
+    "srp@aiet.edu.in": {
+      "name": "SMIT PATEL",
+      "email": "srp@aiet.edu.in",
+      "commits": 1,
+      "first_commit": "Mon Aug 25 21:22:51 2025 +0530",
+      "last_commit": "Mon Aug 25 21:22:51 2025 +0530",
+      "total_insertions": 1,
+      "total_deletions": 0,
+      "files_touched": []
+    }
+  },
+  "files": {},
+  "branches": [
+    {
+      "name": "copilot/fix-69d74355-bb0e-4b6b-a182-52c144be2eee",
+      "current": true,
+      "type": "local"
+    },
+    {
+      "name": "origin/copilot/fix-69d74355-bb0e-4b6b-a182-52c144be2eee",
+      "current": false,
+      "type": "remote"
+    }
+  ],
+  "tags": [],
+  "indexes": {
+    "by_hash": {
+      "655041cb7c71520065ea2e77de6a049e838adfd3": {
+        "hash": "655041cb7c71520065ea2e77de6a049e838adfd3",
+        "author": {
+          "name": "copilot-swe-agent[bot]",
+          "email": "198982749+Copilot@users.noreply.github.com",
+          "date": "Sat Aug 30 16:40:16 2025 +0000"
+        },
+        "committer": {
+          "name": "copilot-swe-agent[bot]",
+          "email": "198982749+Copilot@users.noreply.github.com",
+          "date": "Sat Aug 30 16:40:16 2025 +0000"
+        },
+        "message": {
+          "subject": "Initial plan|Initial plan",
+          "body": "Initial plan"
+        },
+        "parents": [
+          "9eee0be76d57684f59bcf4f9f88333e25697c29f"
+        ],
+        "changes": [],
+        "stats": {
+          "files_changed": 0,
+          "insertions": 0,
+          "deletions": 0
+        }
+      },
+      "9eee0be76d57684f59bcf4f9f88333e25697c29f": {
+        "hash": "9eee0be76d57684f59bcf4f9f88333e25697c29f",
+        "author": {
+          "name": "SMIT PATEL",
+          "email": "srp@aiet.edu.in",
+          "date": "Mon Aug 25 21:22:51 2025 +0530"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "Mon Aug 25 21:22:51 2025 +0530"
+        },
+        "message": {
+          "subject": "Add initial content to readme|Add initial content to readme",
+          "body": "Add initial content to readme"
+        },
+        "parents": [],
+        "changes": [],
+        "stats": {
+          "files_changed": 1,
+          "insertions": 1,
+          "deletions": 0
+        }
+      }
+    },
+    "by_author": {
+      "198982749+Copilot@users.noreply.github.com": [
+        "655041cb7c71520065ea2e77de6a049e838adfd3"
+      ],
+      "srp@aiet.edu.in": [
+        "9eee0be76d57684f59bcf4f9f88333e25697c29f"
+      ]
+    },
+    "by_file": {},
+    "by_date": {
+      "Sat Aug 30": [
+        "655041cb7c71520065ea2e77de6a049e838adfd3"
+      ],
+      "Mon Aug 25": [
+        "9eee0be76d57684f59bcf4f9f88333e25697c29f"
+      ]
+    }
+  }
+}
