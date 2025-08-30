@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "analysis_date": "2025-08-30T17:12:20.046865",
+    "repository_path": "/home/runner/work/Tools/Tools",
+    "data_file": "repository_data.json"
+  },
+  "summary": {
+    "repository_overview": {
+      "extracted_at": "2025-08-30T17:09:02.965767",
+      "original_path": "/home/runner/work/Tools/Tools",
+      "total_commits": 2,
+      "total_authors": 2,
+      "total_files": 0,
+      "branches": 2,
+      "tags": 0
+    },
+    "code_metrics": {
+      "total_insertions": 1,
+      "total_deletions": 0,
+      "net_lines": 1
+    },
+    "activity_metrics": {
+      "most_active_date": "Sat Aug 30",
+      "commits_on_most_active_date": 1,
+      "average_commits_per_day": 1.0
+    },
+    "collaboration_metrics": {
+      "authors": [
+        {
+          "email": "198982749+Copilot@users.noreply.github.com",
+          "commits": 1,
+          "data": {
+            "name": "copilot-swe-agent[bot]",
+            "email": "198982749+Copilot@users.noreply.github.com",
+            "commits": 1,
+            "first_commit": "Sat Aug 30 16:40:16 2025 +0000",
+            "last_commit": "Sat Aug 30 16:40:16 2025 +0000",
+            "total_insertions": 0,
+            "total_deletions": 0,
+            "files_touched": []
+          }
+        },
+        {
+          "email": "srp@aiet.edu.in",
+          "commits": 1,
+          "data": {
+            "name": "SMIT PATEL",
+            "email": "srp@aiet.edu.in",
+            "commits": 1,
+            "first_commit": "Mon Aug 25 21:22:51 2025 +0530",
+            "last_commit": "Mon Aug 25 21:22:51 2025 +0530",
+            "total_insertions": 1,
+            "total_deletions": 0,
+            "files_touched": []
+          }
+        }
+      ],
+      "files_with_most_contributors": []
+    },
+    "technical_metrics": {
+      "language_distribution": {},
+      "largest_commit": {
+        "commit": {
+          "hash": "9eee0be76d57684f59bcf4f9f88333e25697c29f",
+          "author": {
+            "name": "SMIT PATEL",
+            "email": "srp@aiet.edu.in",
+            "date": "Mon Aug 25 21:22:51 2025 +0530"
+          },
+          "committer": {
+            "name": "GitHub",
+            "email": "noreply@github.com",
+            "date": "Mon Aug 25 21:22:51 2025 +0530"
+          },
+          "message": {
+            "subject": "Add initial content to readme|Add initial content to readme",
+            "body": "Add initial content to readme"
+          },
+          "parents": [],
+          "changes": [],
+          "stats": {
+            "files_changed": 1,
+            "insertions": 1,
+            "deletions": 0
+          }
+        },
+        "total_changes": 1
+      }
+    }
+  },
+  "development_patterns": {
+    "work_schedule": {
+      "peak_hour": 0,
+      "commits_at_peak": 0,
+      "hourly_distribution": {},
+      "analysis": "No commit timing data available"
+    },
+    "activity_timeline": {
+      "daily_commits": {
+        "Sat Aug 30": 1,
+        "Mon Aug 25": 1
+      },
+      "most_active_day": [
+        "Sat Aug 30",
+        1
+      ],
+      "development_phases": []
+    },
+    "commit_style": {
+      "average_length": 42.0,
+      "conventional_commits": {
+        "feat": 0,
+        "fix": 0,
+        "docs": 0,
+        "style": 0,
+        "refactor": 0,
+        "test": 0,
+        "chore": 0
+      },
+      "sentiment_score": 1,
+      "total_messages": 2
+    }
+  },
+  "code_evolution": {
+    "file_lifecycle": {
+      "message": "No file data available"
+    },
+    "file_stability": {
+      "message": "No file data available"
+    },
+    "code_volume": {
+      "timeline": [
+        {
+          "date": "Mon Aug 25 21:22:51 2025 +0530",
+          "commit": "9eee0be7",
+          "net_lines": 1,
+          "insertions": 1,
+          "deletions": 0
+        },
+        {
+          "date": "Sat Aug 30 16:40:16 2025 +0000",
+          "commit": "655041cb",
+          "net_lines": 1,
+          "insertions": 1,
+          "deletions": 0
+        }
+      ],
+      "final_net_lines": 1,
+      "total_insertions": 1,
+      "total_deletions": 0
+    }
+  },
+  "team_collaboration": {
+    "team_dynamics": {
+      "total_authors": 2,
+      "collaboration_pairs": 0,
+      "strongest_collaborations": [],
+      "collaboration_score": 0
+    },
+    "author_contributions": [
+      {
+        "name": "copilot-swe-agent[bot]",
+        "email": "198982749+Copilot@users.noreply.github.com",
+        "commits": 1,
+        "lines_added": 0,
+        "lines_removed": 0,
+        "files_touched": 0,
+        "activity_span": {
+          "days": 0,
+          "first_commit": "Sat Aug 30 16:40:16 2025 +0000",
+          "last_commit": "Sat Aug 30 16:40:16 2025 +0000",
+          "is_active": false
+        }
+      },
+      {
+        "name": "SMIT PATEL",
+        "email": "srp@aiet.edu.in",
+        "commits": 1,
+        "lines_added": 1,
+        "lines_removed": 0,
+        "files_touched": 0,
+        "activity_span": {
+          "days": 0,
+          "first_commit": "Mon Aug 25 21:22:51 2025 +0530",
+          "last_commit": "Mon Aug 25 21:22:51 2025 +0530",
+          "is_active": false
+        }
+      }
+    ]
+  },
+  "insights": {
+    "development_insights": [],
+    "team_insights": [
+      "Low collaboration score - team members working on separate files"
+    ],
+    "code_insights": [],
+    "recommendations": [
+      "Consider more frequent commits for better version control",
+      "No file changes detected - repository may be in initial state"
+    ]
+  },
+  "data_integrity": {
+    "stats": {
+      "total_commits": 2,
+      "total_authors": 2,
+      "total_files": 0,
+      "index_integrity": true
+    },
+    "issues": [],
+    "valid": true
+  }
+}
