@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Git to AI Repository Extractor
+Git to AI Repository Extractor (Fixed for Binary Files)
 
 This script extracts Git repository information and transforms it into an AI-readable format.
 It creates a comprehensive JSON structure that preserves all commit history, file changes,
 and author information while being optimized for AI analysis.
+
+FIXED: Now properly handles binary files (images, executables, etc.) without UTF-8 decode errors.
 """
 
 import json
@@ -46,6 +48,40 @@ class GitToAIExtractor:
                 print(f"Git command failed: {' '.join(cmd)}")
                 print(f"Error: {e.stderr}")
             return "" if text_mode else b""
+    
+    def is_binary_file(self, commit_hash: str, filename: str) -> bool:
+        """Check if a file is binary by examining its content."""
+        try:
+            # Use git to check if file is binary
+            result = subprocess.run(
+                ["git", "show", f"{commit_hash}:{filename}"],
+                cwd=self.repo_path,
+                capture_output=True,
+                check=True
+            )
+            
+            # Check for binary content by looking for null bytes in first 8000 bytes
+            sample = result.stdout[:8000]
+            return b'\x00' in sample
+        except:
+            # If we can't read it, assume it's binary to be safe
+            return True
+    
+    def get_file_type(self, filename: str) -> str:
+        """Determine file type based on extension."""
+        binary_extensions = {
+            '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico', '.svg',
+            '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
+            '.zip', '.tar', '.gz', '.rar', '.7z',
+            '.exe', '.dll', '.so', '.dylib',
+            '.mp3', '.mp4', '.avi', '.mov', '.wav',
+            '.ttf', '.otf', '.woff', '.woff2'
+        }
+        
+        extension = Path(filename).suffix.lower()
+        if extension in binary_extensions:
+            return 'binary'
+        return 'text'
     
     def get_commits(self) -> List[Dict[str, Any]]:
         """Extract all commits with full metadata."""
@@ -115,39 +151,6 @@ class GitToAIExtractor:
         
         return commits
     
-    def is_binary_file(self, commit_hash: str, filename: str) -> bool:
-        """Check if a file is binary by examining its content."""
-        try:
-            # Use git to check if file is binary
-            result = subprocess.run(
-                ["git", "show", f"{commit_hash}:{filename}"],
-                cwd=self.repo_path,
-                capture_output=True,
-                check=True
-            )
-            
-            # Check for binary content by looking for null bytes in first 8000 bytes
-            sample = result.stdout[:8000]
-            return b'\x00' in sample
-        except:
-            # If we can't read it, assume it's binary to be safe
-            return True
-    
-    def get_file_type(self, filename: str) -> str:
-        """Determine file type based on extension."""
-        binary_extensions = {
-            '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico', '.svg',
-            '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
-            '.zip', '.tar', '.gz', '.rar', '.7z',
-            '.exe', '.dll', '.so', '.dylib',
-            '.mp3', '.mp4', '.avi', '.mov', '.wav',
-            '.ttf', '.otf', '.woff', '.woff2'
-        }
-        
-        extension = Path(filename).suffix.lower()
-        if extension in binary_extensions:
-            return 'binary'
-        return 'text'
     def get_commit_changes(self, commit_hash: str) -> List[Dict[str, Any]]:
         """Get file changes for a specific commit."""
         changes = []
