@@ -12,6 +12,7 @@ Features:
 - Folder filtering to extract only specific directories
 - AI-optimized JSON format with indexes
 - Space-efficient transformation
+- Fixed file extraction for merge commits and initial commits
 
 Usage:
     python3 git_to_ai_extractor.py [repo_path] [--folder FOLDER] [--remove-git]
@@ -176,6 +177,7 @@ class GitToAIExtractor:
         if extension in binary_extensions:
             return 'binary'
         return 'text'
+    
     def is_file_in_target_folder(self, filename: str) -> bool:
         """Check if a file is in the target folder."""
         if not self.target_folder:

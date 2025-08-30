@@ -1,0 +1,13 @@
+Starting Git to AI transformation...
+Original .git directory size: 199506 bytes (194.8K)
+Extracting Git repository data...
+Found 6 commits
+Repository data saved to /home/runner/work/Tools/Tools/repository_data.json
+AI-readable format size: 4279548 bytes (4179.2K)
+Space savings: -2045.1%
+
+✅ Transformation complete!
+📁 Repository data: /home/runner/work/Tools/Tools/repository_data.json
+📊 Total commits: 6
+👥 Total authors: 2
+📄 Total files: 19
