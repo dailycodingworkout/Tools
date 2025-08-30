@@ -176,6 +176,7 @@ class GitToAIExtractor:
         if extension in binary_extensions:
             return 'binary'
         return 'text'
+    
     def is_file_in_target_folder(self, filename: str) -> bool:
         """Check if a file is in the target folder."""
         if not self.target_folder:
@@ -340,21 +341,31 @@ class GitToAIExtractor:
         
         try:
             tag_output = self.run_git_command(["tag", "-l"])
-            for tag_name in tag_output.split('\n'):
-                if tag_name.strip():
-                    # Get tag commit
-                    tag_commit = self.run_git_command(["rev-list", "-1", tag_name])
-                    tags.append({
-                        "name": tag_name.strip(),
-                        "commit": tag_commit
-                    })
+            for tag in tag_output.split('\n'):
+                if tag.strip():
+                    # Get tag details
+                    tag_info = self.run_git_command([
+                        "show", "--pretty=format:%H|%an|%ae|%ad|%s", "--no-patch", tag
+                    ])
+                    
+                    if tag_info:
+                        parts = tag_info.split('|')
+                        if len(parts) >= 5:
+                            tags.append({
+                                "name": tag,
+                                "commit": parts[0],
+                                "author": parts[1],
+                                "email": parts[2],
+                                "date": parts[3],
+                                "message": parts[4]
+                            })
         except:
             pass
         
         return tags
     
     def get_authors(self, commits: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
-        """Extract author information and statistics."""
+        """Extract author statistics from commits."""
         authors = {}
         
         for commit in commits:
@@ -368,34 +379,38 @@ class GitToAIExtractor:
                     "commits": 0,
                     "first_commit": commit["author"]["date"],
                     "last_commit": commit["author"]["date"],
+                    "files_changed": set(),
                     "total_insertions": 0,
-                    "total_deletions": 0,
-                    "files_touched": set()
+                    "total_deletions": 0
                 }
             
             author_data = authors[author_email]
             author_data["commits"] += 1
-            author_data["total_insertions"] += commit["stats"]["insertions"]
-            author_data["total_deletions"] += commit["stats"]["deletions"]
             
-            # Track files touched
-            for change in commit["changes"]:
-                author_data["files_touched"].add(change["file"])
-            
-            # Update dates
+            # Update date range
             if commit["author"]["date"] < author_data["first_commit"]:
                 author_data["first_commit"] = commit["author"]["date"]
             if commit["author"]["date"] > author_data["last_commit"]:
                 author_data["last_commit"] = commit["author"]["date"]
+            
+            # Track files changed
+            for change in commit["changes"]:
+                author_data["files_changed"].add(change["file"])
+            
+            # Add stats
+            stats = commit["stats"]
+            author_data["total_insertions"] += stats["insertions"]
+            author_data["total_deletions"] += stats["deletions"]
         
         # Convert sets to lists for JSON serialization
         for author_data in authors.values():
-            author_data["files_touched"] = list(author_data["files_touched"])
+            author_data["files_changed"] = list(author_data["files_changed"])
+            author_data["unique_files"] = len(author_data["files_changed"])
         
         return authors
     
     def get_file_history(self, commits: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
-        """Create file evolution history."""
+        """Extract file history from commits."""
         files = {}
         
         for commit in commits:
@@ -404,36 +419,36 @@ class GitToAIExtractor:
                 
                 if filename not in files:
                     files[filename] = {
-                        "path": filename,
-                        "created_in": commit["hash"],
-                        "created_by": commit["author"]["email"],
-                        "created_date": commit["author"]["date"],
+                        "filename": filename,
+                        "type": change["type"],
+                        "first_seen": commit["author"]["date"],
                         "last_modified": commit["author"]["date"],
-                        "last_modified_by": commit["author"]["email"],
-                        "last_modified_in": commit["hash"],
-                        "total_commits": 0,
+                        "total_changes": 0,
                         "authors": set(),
-                        "history": []
+                        "commits": []
                     }
                 
                 file_data = files[filename]
-                file_data["total_commits"] += 1
+                file_data["total_changes"] += 1
                 file_data["authors"].add(commit["author"]["email"])
-                file_data["last_modified"] = commit["author"]["date"]
-                file_data["last_modified_by"] = commit["author"]["email"]
-                file_data["last_modified_in"] = commit["hash"]
-                
-                file_data["history"].append({
-                    "commit": commit["hash"],
+                file_data["commits"].append({
+                    "hash": commit["hash"],
                     "date": commit["author"]["date"],
                     "author": commit["author"]["email"],
-                    "status": change["status"],
-                    "message": commit["message"]["subject"]
+                    "status": change["status"]
                 })
+                
+                # Update date range
+                if commit["author"]["date"] < file_data["first_seen"]:
+                    file_data["first_seen"] = commit["author"]["date"]
+                if commit["author"]["date"] > file_data["last_modified"]:
+                    file_data["last_modified"] = commit["author"]["date"]
         
-        # Convert sets to lists for JSON serialization
+        # Convert sets to lists and sort commits by date
         for file_data in files.values():
             file_data["authors"] = list(file_data["authors"])
+            file_data["unique_authors"] = len(file_data["authors"])
+            file_data["commits"].sort(key=lambda x: x["date"])
         
         return files
     
